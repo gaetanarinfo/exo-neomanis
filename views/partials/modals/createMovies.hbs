@@ -1,0 +1,75 @@
+<div class="modal fade" id="createMovies" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Ajouter un film</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/movies/add" method="POST">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="titre" class="col-form-label">Titre du film :</label>
+                        <input type="text" required class="form-control" name="titre">
+                    </div>
+                    <div class="mb-3">
+                        <label for="annee" class="col-form-label">Année du film :</label>
+                        <input required type="number" min="1800" max="2030" step="1" value="2021" required
+                            class="form-control" name="annee">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nbre_de_prets" class="col-form-label">Nombre de prêt sur le film :</label>
+                        <input required type="number" min="0" max="999999" step="1" value="0" required
+                            class="form-control" name="nbre_de_prets">
+                    </div>
+                    <div class="mb-3">
+                        <label for="auteur" class="col-form-label">Auteur du film :</label>
+                        <input required type="text" required class="form-control" name="auteur">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editeur" class="col-form-label">Editeur du film :</label>
+                        <input required type="text" required class="form-control" name="editeur">
+                    </div>
+                    <div class="mb-3">
+                        <label for="indice" class="col-form-label">Indice du film :</label>
+                        <input required type="text" required class="form-control" name="indice">
+                    </div>
+                    <div class="mb-3">
+                        <label for="bib" class="col-form-label">Bib du film :</label>
+                        <input required type="text" required class="form-control" name="bib">
+                    </div>
+                    <div class="mb-3">
+                        <label for="cote" class="col-form-label">Cote du film :</label>
+                        <input required type="text" required class="form-control" name="cote">
+                    </div>
+                    <div class="mb-3">
+                        <label for="cat_1" class="col-form-label">Catégorie 1 du film :</label>
+                        <select class="form-control" name="cat_1" required>
+                            <option value="">Séléctionez une catégorie :</option>
+                            <option value="A">Adulte</option>
+                            <option value="E">Enfant</option>
+                            <option value="BB">Bébé</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cat_2" class="col-form-label">Catégorie 2 du film :</label>
+                        <select class="form-control" name="cat_2" required>
+                            <option value="">Séléctionez une catégorie :</option>
+                            <option value="A">Dessin animé ou film d'animation</option>
+                            <option value="P">Thriller</option>
+                            <option value="SF">Science Fiction</option>
+                            <option value="G">Guerre</option>
+                            <option value="C">Comédie</option>
+                            <option value="H">Historique</option>
+                            <option value="F">Fantastique</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

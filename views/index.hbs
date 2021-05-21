@@ -1,0 +1,254 @@
+<div class="container mt-4 mb-4">
+    <div class="row">
+
+        <div class="col-md-3">
+            <p>Trier les films par date :</p>
+            <form id="search_form_date" method="POST" action="/movies/date">
+                <span style="margin-left: 0.2em;"><label>Les 100 meilleurs films par date de
+                        sortie.</label></span>
+                <input style="width: 81px;" type="number" min="1900" max="2030" step="1" value="2021" required
+                    name="orderDate" id="orderDate" class="form-control mb-3 mt-1" />
+                <button id="submitDate" type="submit" class="btn btn-success">Valider</button>
+            </form>
+        </div>
+
+        <div class="col-md-3">
+            <p>Trier les 100 meilleurs films :</p>
+            <a id="rented" onclick="orderByRented()" class="btn btn-primary">Trier...</a>
+        </div>
+
+        <div class="col-md-3">
+            <p>Trier les films par date :</p>
+            <form id="search_form_date_one" method="POST" action="/movies/date/one">
+                <span style="margin-left: 0.2em;"><label>Film le plus loué :</label></span>
+                <input style="width: 81px;" type="number" min="1800" max="2030" step="1" value="2021" required
+                    name="orderDateOne" id="orderDateOne" class="form-control mb-3 mt-1" />
+                <button id="submitDateOne" type="submit" class="btn btn-success">Valider</button>
+            </form>
+        </div>
+
+        <div class="col-md-3">
+            <p>Film le plus loué de tout les temps :</p>
+            <a id="rentedOne" onclick="orderByRentedOne()" class="btn btn-primary">Trier...</a>
+            <a id="clearOne" class="btn btn-warning" style="display: none;width: 90px;">Effacer</a>
+        </div>
+
+        <hr class="mb-3 mt-3" />
+
+        <div class="col-md-3">
+            <p>Trier le meilleur films par auteur :</p>
+            <form id="search_form_author_one" method="POST" action="/movies/authorRentedOne">
+                <span style="margin-left: 0.2em;"><label>Film le plus loué :</label></span>
+                <select required id="authorRentedOne" name="authorRentedOne" class="form-control mt-2 mb-2">
+                    <option value="">Choissisez un auteur</option>
+                    <option disabled>---------------</option>
+                    {{#each moviesAll}}
+                    <option value="{{auteur}}">{{auteur}}</option>
+                    {{/each}}
+                </select>
+                <button id="submitAuthorRentedOne" type="submit" class="btn btn-success">Valider</button>
+            </form>
+        </div>
+
+        <div class="col-md-3">
+            <p>Recherche par titre de film :</p>
+            <form id="search_form_title" method="POST" action="/movies/search/title">
+                <span style="margin-left: 0.2em;"><label>Titre du film :</label></span>
+                <input type="text" required id="searchTitle" name="searchTitle" class="form-control mt-2 mb-2">
+                <button id="submitSearchTitle" type="submit" class="btn btn-success">Valider</button>
+            </form>
+        </div>
+
+        <div class="col-md-12 m-auto text-center mt-2">
+            <a id="clear" class="btn btn-warning" style="width: 120px;">Effacer tout</a>
+        </div>
+
+        <div class="col-md-12">
+            <hr />
+            <p class="text-center"><i class="fas fa-film m-1" aria-hidden="true"></i> Il y a actuellement
+                <b>{{moviesAllCount}}</b> film(s) dans notre base de données.
+            </p>
+            <hr />
+            <div id="tableA">
+                <table class="table table-borderless table-hover">
+                    <thead class="text-center">
+                        <tr>
+                            <th scope="col">Titre</th>
+                            <th scope="col">Auteur</th>
+                            <th scope="col">Editeur</th>
+                            <th scope="col">Annee de sortie</th>
+                            <th scope="col">Nombre de prêt</th>
+                            <th scope="col">Catégorie 1</th>
+                            <th scope="col">Catégorie 2</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center" style="vertical-align: middle;">
+                        {{#each moviesAll}}
+                        <tr>
+                            <td>
+                                {{titre}}
+                            </td>
+                            <td>
+                                {{auteur}}
+                            </td>
+                            <td>
+                                {{editeur}}
+                            </td>
+                            <td>
+                                {{annee}}
+                            </td>
+                            <td>
+                                {{nbre_de_prets}}
+                            </td>
+                            <td>
+                                {{cat_1}}
+                            </td>
+                            <td>
+                                {{cat_2}}
+                            </td>
+                            <!-- Bouton pour Supprimer un Film par (ID) -->
+                            <td>
+                                <a href="/movies/delete/{{_id}}" class="btn btn-danger"><i class="fas fa-trash m-1"></i></a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+
+                <!-- Pagination -->
+                {{{pagination}}}
+            </div>
+
+            <!-- Table trie par date et les meilleurs films -->
+            <div id="tableB" style="display: none;">
+                <table class="table table-borderless table-hover">
+                    <thead class="text-center">
+                        <tr>
+                            <th scope="col">Titre</th>
+                            <th scope="col">Auteur</th>
+                            <th scope="col">Editeur</th>
+                            <th scope="col">Annee de sortie</th>
+                            <th scope="col">Nombre de prêt</th>
+                            <th scope="col">Catégorie 1</th>
+                            <th scope="col">Catégorie 2</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center" style="vertical-align: middle;" id="tableBB">
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table trie les 100 meilleurs films -->
+            <div id="tableC" style="display: none;">
+                <table class="table table-borderless table-hover">
+                    <thead class="text-center">
+                        <tr>
+                            <th scope="col">Titre</th>
+                            <th scope="col">Auteur</th>
+                            <th scope="col">Editeur</th>
+                            <th scope="col">Annee de sortie</th>
+                            <th scope="col">Nombre de prêt</th>
+                            <th scope="col">Catégorie 1</th>
+                            <th scope="col">Catégorie 2</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center" style="vertical-align: middle;" id="tableCC">
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table trie le film par date et par le plus loué 1 resultat -->
+            <div id="tableD" style="display: none;">
+                <table class="table table-borderless table-hover">
+                    <thead class="text-center">
+                        <tr>
+                            <th scope="col">Titre</th>
+                            <th scope="col">Auteur</th>
+                            <th scope="col">Editeur</th>
+                            <th scope="col">Annee de sortie</th>
+                            <th scope="col">Nombre de prêt</th>
+                            <th scope="col">Catégorie 1</th>
+                            <th scope="col">Catégorie 2</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center" style="vertical-align: middle;" id="tableDD">
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table trie le film le plus loué 1 résultat -->
+            <div id="tableE" style="display: none;">
+                <table class="table table-borderless table-hover">
+                    <thead class="text-center">
+                        <tr>
+                            <th scope="col">Titre</th>
+                            <th scope="col">Auteur</th>
+                            <th scope="col">Editeur</th>
+                            <th scope="col">Annee de sortie</th>
+                            <th scope="col">Nombre de prêt</th>
+                            <th scope="col">Catégorie 1</th>
+                            <th scope="col">Catégorie 2</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center" style="vertical-align: middle;" id="tableEE">
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table trie le mailleur film par auteur -->
+            <div id="tableF" style="display: none;">
+                <table class="table table-borderless table-hover">
+                    <thead class="text-center">
+                        <tr>
+                            <th scope="col">Titre</th>
+                            <th scope="col">Auteur</th>
+                            <th scope="col">Editeur</th>
+                            <th scope="col">Annee de sortie</th>
+                            <th scope="col">Nombre de prêt</th>
+                            <th scope="col">Catégorie 1</th>
+                            <th scope="col">Catégorie 2</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center" style="vertical-align: middle;" id="tableFF">
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table trie les films par titre -->
+            <div id="tableG" style="display: none;">
+                <table class="table table-borderless table-hover">
+                    <thead class="text-center">
+                        <tr>
+                            <th scope="col">Titre</th>
+                            <th scope="col">Auteur</th>
+                            <th scope="col">Editeur</th>
+                            <th scope="col">Annee de sortie</th>
+                            <th scope="col">Nombre de prêt</th>
+                            <th scope="col">Catégorie 1</th>
+                            <th scope="col">Catégorie 2</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center" style="vertical-align: middle;" id="tableGG">
+
+                    </tbody>
+                </table>
+            </div>
+            <hr />
+
+            <!-- Bouton pour Ajouter un Film -->
+            <div class="col-md-12 text-center">
+                <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createMovies"><i
+                        class="fas fa-plus m-1"></i> Ajouter un film</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Création Film -->
+{{> modals/createMovies}}
